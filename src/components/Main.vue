@@ -1,3 +1,7 @@
+<script setup>
+import Characters from "./Characters.vue";
+</script>
+
 <template>
   <main>
     <div class="column-infos">
@@ -11,9 +15,16 @@
       <p>Origin</p>
       <p>Location</p>
       <p>Link</p>
-      <span><p>Creation Date</p></span>
+      <p id="creationDate">Creation Date</p>
     </div>
-    <div class="list-personagens"></div>
+    <div class="list-characters">
+      <Characters />
+      <Characters />
+      <Characters />
+      <Characters />
+      <Characters />
+      <Characters />
+    </div>
   </main>
 </template>
 
@@ -23,17 +34,18 @@ main {
 }
 
 .column-infos {
-  padding: 0.8rem 0.4rem 0 1rem;
-}
-
-.column-infos input {
-  margin: 1rem 0rem 1rem 1.2rem;
+  padding: 0.8rem 0.4rem 0.8rem 1rem;
 }
 
 .column-infos div {
   display: flex;
   align-items: center;
-  gap: 2.4rem;
+  margin-right: 8rem;
+}
+
+.column-infos input {
+  margin: 1rem 2.4rem 1rem 1.2rem;
+  background: #81828a;
 }
 
 .column-infos p {
@@ -43,11 +55,9 @@ main {
   letter-spacing: -0.03em;
 
   color: #81828a;
-
-  margin: 0 2.4rem;
 }
 
-.column-infos span p {
+.column-infos #creationDate {
   margin-right: 0.4rem;
 }
 

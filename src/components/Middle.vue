@@ -26,6 +26,10 @@
 </template>
 
 <style scoped>
+#container {
+  margin-bottom: 0.8rem;
+}
+
 #container,
 #header {
   display: flex;
