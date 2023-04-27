@@ -13,7 +13,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   padding: 0.9rem 1.6rem;
-  background: rgb(218, 242, 244);
+  cursor: pointer;
 
   background: linear-gradient(
     90deg,
@@ -21,7 +21,5 @@ nav {
     rgba(242, 244, 250, 0.652771) 34.72%,
     rgb(218, 242, 244) 100%
   );
-
-  cursor: pointer;
 }
 </style>
