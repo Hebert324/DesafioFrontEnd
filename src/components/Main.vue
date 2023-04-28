@@ -7,7 +7,7 @@ import ColumnInfos from "./ColumnInfos.vue";
   <main>
     <table>
       <ColumnInfos />
-      <Characters v-for="i in 12" :key="i" :id="i" />
+      <Characters v-for="i in 11" :key="i" :id="i" />
     </table>
   </main>
 </template>
