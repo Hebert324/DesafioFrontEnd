@@ -1,8 +1,65 @@
+<script setup props="props">
+import { ref, onMounted } from "vue";
+
+const props = defineProps({
+  id: String,
+});
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};
+
+const fetchApi = (id) => {
+  const result = fetch(`https://rickandmortyapi.com/api/character/${id}`)
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+
+  return result;
+};
+
+let img = ref("");
+let name = ref("");
+let status = ref("");
+let species = ref("");
+let gender = ref("");
+let origin = ref("");
+let location = ref("");
+let characterLink = ref("");
+let creationDate = ref("");
+
+const fetchCharacter = () => {
+  fetchApi(props.id)
+    .then((character) => {
+      name.value = character.name;
+      status.value = character.status;
+      species.value = character.species;
+      gender.value = character.gender;
+      origin.value = character.origin.name;
+      location.value = character.location.name;
+      characterLink.value = character.url;
+      creationDate.value = formatDate(character.created);
+      img.value = character.image;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+onMounted(fetchCharacter);
+</script>
+
 <template>
   <div class="characters">
     <div>
-      <img src="../assets/ricky-image.svg" alt="Foto do Personagem" />
-      <p id="name">Rick Sanchez</p>
+      <img class="characters-img" v-bind:src="img" alt="Foto do Personagem" />
+      <p id="name">{{ name }}</p>
     </div>
     <div>
       <img
@@ -10,14 +67,14 @@
         src="../assets/rocket.svg"
         alt="Imagem de um foguete"
       />
-      <p class="status">Alive</p>
+      <p class="status">{{ status }}</p>
     </div>
-    <p class="species">Human</p>
-    <p class="gender">Male</p>
-    <p class="origin">Eartch (C-137)</p>
-    <p class="location">Citadel of Ricks</p>
-    <a href="#">Character link</a>
-    <p class="creation-date">04/11/2017</p>
+    <p class="species">{{ species }}</p>
+    <p class="gender">{{ gender }}</p>
+    <p class="origin">{{ origin.slice(0, 10) + "..." }}</p>
+    <p class="location">{{ location.slice(0, 10) + "..." }}</p>
+    <a v-bind:href="characterLink" target="_blank">Character link</a>
+    <p class="creation-date">{{ creationDate }}</p>
   </div>
 </template>
 
@@ -32,6 +89,12 @@
   justify-content: space-between;
 
   margin-bottom: 0.1rem;
+}
+
+.characters-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 99px;
 }
 
 .characters p {
@@ -77,5 +140,6 @@
   border: 1px solid #eaebf3;
   border-radius: 4px;
   padding: 0.6rem;
+  cursor: pointer;
 }
 </style>

@@ -18,12 +18,11 @@ import Characters from "./Characters.vue";
       <p id="creationDate">Creation Date</p>
     </div>
     <div class="list-characters">
-      <Characters />
-      <Characters />
-      <Characters />
-      <Characters />
-      <Characters />
-      <Characters />
+      <Characters id="1" />
+      <Characters id="2" />
+      <Characters id="3" />
+      <Characters id="4" />
+      <Characters id="5" />
     </div>
   </main>
 </template>
