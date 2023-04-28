@@ -21,10 +21,6 @@ input {
   background: #81828a;
 }
 
-tr th:first-child {
-  text-align: center;
-}
-
 th {
   font-weight: 500;
   font-size: 1.2rem;
