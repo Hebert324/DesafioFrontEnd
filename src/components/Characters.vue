@@ -1,12 +1,11 @@
 <script setup props="props">
 import { ref, onMounted } from "vue";
-import { fetchApi, formatDate } from "../services/api.js";
+import { fetchApiCharacters, formatDate } from "../services/api.js";
 
 const props = defineProps({
   id: Number,
 });
 
-let img = ref("");
 let name = ref("");
 let status = ref("");
 let species = ref("");
@@ -15,31 +14,33 @@ let origin = ref("");
 let location = ref("");
 let characterLink = ref("");
 let creationDate = ref("");
+let img = ref("");
 
-const fetchCharacter = async () => {
+const featApiCharacters = async () => {
   try {
-    const character = await fetchApi(props.id);
-    name.value = character.name;
-    status.value = character.status;
-    species.value = character.species;
-    gender.value = character.gender;
-    origin.value = character.origin.name;
-    location.value = character.location.name;
-    characterLink.value = character.url;
-    creationDate.value = formatDate(character.created);
-    img.value = character.image;
+    const result = await fetchApiCharacters(props.page);
+    name.value = result[props.id].name;
+    status.value = result[props.id].status;
+    species.value = result[props.id].species;
+    gender.value = result[props.id].gender;
+    origin.value = result[props.id].origin.name;
+    location.value = result[props.id].location.name;
+    characterLink.value = result[props.id].url;
+    creationDate.value = formatDate(result[props.id].created);
+    img.value = result[props.id].image;
   } catch (error) {
     console.log(error);
   }
 };
 
-onMounted(fetchCharacter);
+onMounted(featApiCharacters);
 </script>
 
 <template>
   <tbody>
     <tr>
       <td>
+        <input type="checkbox" />
         <img class="characters-img" v-bind:src="img" alt="Foto do Personagem" />
       </td>
       <td id="name">{{ name }}</td>
@@ -87,6 +88,21 @@ tr td:first-child {
   width: 28px;
   height: 28px;
   border-radius: 99px;
+  cursor: pointer;
+}
+
+tr td input {
+  display: none;
+  cursor: pointer;
+  margin-left: 0.6rem;
+}
+
+tr td:hover .characters-img {
+  display: none;
+}
+
+tr td:hover input {
+  display: initial;
 }
 
 a {
