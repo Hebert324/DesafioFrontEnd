@@ -1,19 +1,61 @@
+<script setup>
+import { ref, onMounted } from "vue";
+import { fetchApiCharactersLength } from "../services/api.js";
+
+let characterLength = ref("");
+let pagesLength = ref("");
+
+const apiCharactersLength = async () => {
+  try {
+    const info = await fetchApiCharactersLength();
+    characterLength.value = info.count;
+    pagesLength.value = info.pages;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+onMounted(apiCharactersLength);
+
+const currentPage = ref(1);
+const previousbuttonOpacity = ref(0.5);
+const nextbuttonOpacity = ref(1);
+
+const nextPageButton = () => {
+  currentPage.value < pagesLength.value && currentPage.value++;
+  previousbuttonOpacity.value = 1;
+  currentPage.value == pagesLength.value && (nextbuttonOpacity.value = 0.5);
+};
+
+const previousPageButton = () => {
+  currentPage.value > 1 && currentPage.value--;
+  nextbuttonOpacity.value = 1;
+  currentPage.value == 1 && (previousbuttonOpacity.value = 0.5);
+};
+</script>
+
 <template>
   <footer>
     <div>
-      <img
-        src="../assets/btn-arrow-left.svg"
-        alt="Botão de seta para esquerda"
-      />
-      <p>1</p>
-      <img
-        src="../assets/btn-arrow-right.svg"
-        alt="Botão de seta para direita"
-      />
-      <p>de 1800</p>
+      <button
+        id="linkSetaEsquerda"
+        @click="previousPageButton"
+        v-bind:style="{ opacity: previousbuttonOpacity }"
+      >
+        <img src="../assets/btn-arrow-left.svg" />
+      </button>
+      <p>{{ currentPage }}</p>
+      <button @click="nextPageButton">
+        <img
+          src="../assets/btn-arrow-right.svg"
+          alt="Botão de seta para direita"
+          v-bind:style="{ opacity: nextbuttonOpacity }"
+        />
+      </button>
+      <p>de {{ pagesLength }}</p>
     </div>
     <p>|</p>
-    <p>36001 Personagens na lista</p>
+    <p>{{ characterLength }} Personagens na lista</p>
   </footer>
 </template>
 
@@ -26,11 +68,6 @@ footer {
 
   text-align: center;
   margin: 2.2rem 1.6rem;
-
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
 }
 
 footer div {
@@ -39,8 +76,12 @@ footer div {
   gap: 1.6rem;
 }
 
-footer div img:first-child {
-  opacity: 0.4;
+button {
+  border: none;
+}
+
+button img {
+  cursor: pointer;
 }
 
 footer div p {
