@@ -7,18 +7,18 @@ export const formatDate = (dateString) => {
   return `${day}/${month}/${year}`;
 };
 
-export const fetchApi = async (id) => {
+export const fetchApiCharacters = async (pages) => {
   const response = await fetch(
-    `https://rickandmortyapi.com/api/character/${id}`
+    `https://rickandmortyapi.com/api/character/?page=${pages}`
   );
-  const data = await response.json();
+  const res = await response.json();
+  let data = await res.results;
   return data;
 };
 
-export const fetchApiCharacterLength = async () => {
+export const fetchApiCharactersLength = async () => {
   const response = await fetch(`https://rickandmortyapi.com/api/character/`);
   const data = await response.json();
-  let characterLength = await data.info.count;
-  console.log(characterLength);
+  let characterLength = await data.info;
   return characterLength;
 };
