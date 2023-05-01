@@ -1,5 +1,5 @@
 <script setup props="props">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
 import { fetchApiCharacters, formatDate } from "../services/api.js";
 
 const props = defineProps({
@@ -35,42 +35,51 @@ const featApiCharacters = async () => {
 };
 
 onMounted(featApiCharacters);
+
+const checked = ref(false);
+const cor = ref("#ffffff");
+
+watchEffect(() => {
+  if (checked.value) {
+    cor.value = "#E5F7FF";
+  } else {
+    cor.value = "#ffffff";
+  }
+});
 </script>
 
 <template>
   <tbody>
     <tr>
-      <td>
-        <input type="checkbox" />
+      <td :style="{ backgroundColor: cor }">
+        <input type="checkbox" v-model="checked" />
         <img class="characters-img" v-bind:src="img" alt="Foto do Personagem" />
       </td>
-      <td id="name">{{ name }}</td>
-      <td>
+      <td id="name" :style="{ backgroundColor: cor }">{{ name }}</td>
+      <td :style="{ backgroundColor: cor }">
         <img
           class="rocket"
           src="../assets/rocket.svg"
           alt="Imagem de um foguete"
         />
       </td>
-      <td class="status">{{ status }}</td>
-      <td class="species">{{ species }}</td>
-      <td class="gender">{{ gender }}</td>
-      <td class="origin">{{ origin }}</td>
-      <td class="location">{{ location }}</td>
-      <td>
+      <td class="status" :style="{ backgroundColor: cor }">{{ status }}</td>
+      <td :style="{ backgroundColor: cor }">{{ species }}</td>
+      <td :style="{ backgroundColor: cor }">{{ gender }}</td>
+      <td :style="{ backgroundColor: cor }">{{ origin }}</td>
+      <td :style="{ backgroundColor: cor }">{{ location }}</td>
+      <td :style="{ backgroundColor: cor }">
         <a v-bind:href="characterLink" target="_blank">Character link</a>
       </td>
-      <td class="creation-date">{{ creationDate }}</td>
+      <td class="creation-date" :style="{ backgroundColor: cor }">
+        {{ creationDate }}
+      </td>
     </tr>
   </tbody>
   <br />
 </template>
 
 <style scoped>
-tr td {
-  background-color: #ffffff;
-}
-
 td {
   font-size: 1.3rem;
   line-height: 1.6rem;
