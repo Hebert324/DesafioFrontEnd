@@ -4,6 +4,7 @@ import { fetchApiCharacters, formatDate } from "../services/api.js";
 
 const props = defineProps({
   id: Number,
+  page: Number,
 });
 
 let name = ref("");
